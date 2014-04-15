@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1= title
+  p Sign up!
+  form#formRegister(name="register",method="post",action="/register")
+    input#inputUserName(type="text", placeholder="Username", name="username")
+    input#inputUserEmail(type="text", placeholder="Email", name="useremail")
+    input#inputUserPassword(type="text", placeholder="Password", name="userpassword")
+    button#btnSubmit(type="submit") submit
