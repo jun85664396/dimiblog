@@ -4,10 +4,13 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 
+// routes
 var routes = require('./routes');
 var users = require('./routes/users');
 var register = require('./routes/register');
+var login = require('./routes/login');
 
 var db = require('./models');
 var fixtures = require('./models/fixtures');
@@ -23,12 +26,15 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
+app.use(session({ secret: 'something big is going to happen' }));
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// routes
 app.use('/', routes);
 app.use('/register', register);
 app.use('/users', users);
+app.use('/login', login);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {

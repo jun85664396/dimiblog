@@ -1,11 +1,12 @@
-var crypto = require('crypto')
-  , shasum = crypto.createHash('sha1');
+var crypto = require('crypto');
 
 module.exports.addFixtures = function(model){
   var User = model.User;
+  var hash = crypto.createHash('sha1');
+  hash.update('not-a-safe-password', 'utf8');
   var user = User.build({
     username: 'aledesma',
-    password: shasum.digest('not-a-safe-password'),
+    password: hash.digest('hex'),
     email: 'aledesma@cs.ucy.ac.cy'
   });
   user
