@@ -18,26 +18,4 @@ router.get('/', function(req, res) {
   });
 });
 
-router.get('/register', function(req, res) {
-  res.render('register', {
-    title: 'Register'
-  });
-});
-
-router.post('/register', function(req, res) {
-  var userName = req.body.username;
-  var userEmail = req.body.useremail;
-  var userPassword = req.body.userpassword;
-  var User = models.User;
-  var user = User.build({
-    username: userName,
-    password: shasum.digest(userPassword),
-    email: userEmail
-  });
-  res.render('registerComplete', {
-    title: 'Done!',
-    user: user
-  });
-});
-
 module.exports = router;

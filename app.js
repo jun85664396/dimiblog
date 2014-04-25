@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes');
 var users = require('./routes/users');
+var register = require('./routes/register');
 
 var db = require('./models');
 var fixtures = require('./models/fixtures');
@@ -26,6 +27,7 @@ app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+app.use('/register', register);
 app.use('/users', users);
 
 /// catch 404 and forwarding to error handler
