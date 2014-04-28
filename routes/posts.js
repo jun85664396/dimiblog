@@ -13,21 +13,25 @@ router.get('/', function(req, res) {
   .find({ username: username })
   .success(function(user){
     user.getPosts().complete(function(err, posts){
-      console.log(posts.length);
+      res.render('posts', {
+        title: 'Your posts will appear here',
+        posts: posts
+      });
     });
-  });
-  res.render('posts', {
-    title: 'Your posts will appear here'
   });
 });
 
 // get user posts
 router.get('/:username', function(req, res) {
-
+  res.setHeader('Content-Type', 'application/json');
+  if(!req.session.username)
+    res.end(JSON.stringify({ Message: 'Authentication required...' }));
+  var Post = models.Post;
+  
 });
 
 router.post('/', function(req, res) {
-
+  
 });
 
 module.exports = router;

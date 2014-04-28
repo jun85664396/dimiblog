@@ -1,7 +1,5 @@
 var express = require('express');
 var models = require('../models');
-var crypto = require('crypto')
-  , shasum = crypto.createHash('sha1');
 
 var router = express.Router();
 

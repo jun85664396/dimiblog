@@ -1,10 +1,12 @@
 var Sequelize = require('sequelize');
+var config = require('../config');
 
 // initialize database connection
+var dbconfig = config();
 var sequelize = new Sequelize(
-  'epl699',
-  'root',
-  '123123'
+  dbconfig.database,
+  dbconfig.user,
+  dbconfig.password
 );
 
 // load models
