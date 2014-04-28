@@ -1,0 +1,19 @@
+extends layout
+
+block header
+  script(src='/javascripts/jquery.js')
+
+block content
+  h1= title
+  
+  form#formPost(name="register",method="post",action="/posts")
+    textarea#inputPostText(rows = 4, cols = 80, placeholder="What's on your mind...", name="posttext")
+    br
+    button#btnSubmit(type="button") Post
+  
+  script(type='text/javascript').
+    $(document).ready(function(){
+      // js client
+      var name = 'andres';
+      // alert('hello ' + name);
+    });
