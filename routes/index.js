@@ -8,11 +8,12 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', function(req, res) {
   var User = models.User;
+  var username = req.session.username ? req.session.username: "";
   User
   .findAll()
   .success(function(users){
     res.render('index', {
-      title: 'Express',
+      title: 'Express welcome ' + username,
       users: users
     });
   });

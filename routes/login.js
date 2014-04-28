@@ -37,9 +37,7 @@ router.post('/', function(req, res) {
       }
       // return a response
       if(req.session.username){
-        res.render('login', {
-          title: 'Welcome ' + req.session.username
-        });
+        res.redirect('../');
       }else{
         res.render('login', {
           title: 'Login'
