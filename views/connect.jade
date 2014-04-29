@@ -1,0 +1,8 @@
+extends layout
+
+block content
+  h1= title
+  form#formLogin(name="connect",method="post",action="/connect")
+    input#inputUserName(type="text", placeholder="Username", name="username")
+    input#inputUserUrl(type="text", placeholder="Url", name="url")
+    button#btnSubmit(type="submit") submit

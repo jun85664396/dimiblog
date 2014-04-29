@@ -13,6 +13,7 @@ var register = require('./routes/register');
 var login = require('./routes/login');
 var logout = require('./routes/logout');
 var posts = require('./routes/posts');
+var connect = require('./routes/connect');
 
 var db = require('./models');
 var fixtures = require('./models/fixtures');
@@ -39,6 +40,7 @@ app.use('/register', register);
 app.use('/login', login);
 app.use('/logout', logout);
 app.use('/posts', posts);
+app.use('/connect', connect);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
