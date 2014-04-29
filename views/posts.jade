@@ -19,7 +19,7 @@ block content
       div
         = post.text
       div
-        = post.createdAt
+        = post.createdAt.toUTCString()
       div &nbsp
   
   script(type='text/javascript').

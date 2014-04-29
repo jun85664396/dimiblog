@@ -47,7 +47,7 @@ var addPost = function(req, res){
     .complete(function(error, post){
       user.addPost(post).success(function(){
         // Added!
-        res.end(JSON.stringify({ date: post.createdAt }));
+        res.end(JSON.stringify({ date: post.createdAt.toUTCString() }));
       });
     });
   });
