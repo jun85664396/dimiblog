@@ -17,6 +17,8 @@
     "stylus": "0.42.3",
     "mysql": "2.1.1",
     "sequelize": "1.7.0",
-    "crypto": "0.0.3"
+    "crypto": "0.0.3",
+    "socket.io": "~1.0.0",
+    "socket.io-client": "~1.0.0"
   }
 }

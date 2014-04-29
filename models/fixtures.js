@@ -13,9 +13,19 @@ module.exports.addFixtures = function(model){
     .save()
     .complete(function(err){
       if (!!err) {
-        console.log('The instance has not been saved:', err)
+        console.log('The instance has not been saved:', err);
       } else {
-        console.log('We have a persisted instance now')
+        console.log('We have a persisted instance now');
+        var Post = model.Post;
+        Post
+        .create({ 
+          text: 'I am tempted to write a single hello world... ' 
+        })
+        .complete(function(error, post){
+          user.addPost(post).success(function(){
+            console.log('We have a post!');
+          });
+        });
       }
     });
 };

@@ -14,23 +14,29 @@ router.get('/', function(req, res) {
 router.post('/', function(req, res) {
   if(!req.session.username)
     res.redirect('../login');
-
-  var userName = req.body.username;
-  var userUrl = req.body.url;
   
+  var username = req.session.username;
+  var connectionUsername = req.body.username;
+  var connectionUrl = req.body.url;
   var User = models.User;
+
   User
-    .find({ where: { username: userName } })
-    .complete(function(err, johnDoe) {
-      if (!!err) {
-        console.log('An error occurred while searching for ' + userName, err);
-      } else if (!johnDoe) {
-        console.log('No user with the username "' + userName + '" has been found.');
-      } else {
-		  console.log('You can find '+username+' at '+url);		
-      }
-		res.setHeader('Content-Type', 'application/json');
-		res.end(JSON.stringify({ Message: 'Authentication required...' }));
+    .find({ where: { username: username } })
+    .complete(function(err, thisUser) {
+      var Connection = models.Connection;
+      Connection
+      .create({ 
+        url: connectionUrl,
+        username: connectionUsername
+      })
+      .complete(function(error, connection){
+        thisUser.addConnection(connection).success(function(){
+          res.render('connect', {
+            title: 'Connection form',
+            message: 'Connection added!'
+          });
+        });
+      });
     });
 });
 

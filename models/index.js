@@ -12,7 +12,8 @@ var sequelize = new Sequelize(
 // load models
 var models = [
   'Post',
-  'User'
+  'User',
+  'Connection'
 ];
 models.forEach(function(model) {
   module.exports[model] = sequelize.import(__dirname + '/' + model);
@@ -22,6 +23,7 @@ models.forEach(function(model) {
 (function(m) {
   m.Post.belongsTo(m.User);
   m.User.hasMany(m.Post);
+  m.User.hasMany(m.Connection)
 })(module.exports);
 
 // export connection
