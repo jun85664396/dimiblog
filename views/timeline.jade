@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1= title
+  
+  div#posts
+    each post in posts
+      div
+        = post.text
+      div
+        = post.createdAt.toUTCString()
+      div &nbsp
