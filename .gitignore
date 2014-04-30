@@ -1,3 +1,5 @@
 config.js
 *.js~
 *.log
+node_modules/[^.]*
+modules/fixtures.js

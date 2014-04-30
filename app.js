@@ -5,7 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-
+var config = require('./config');
+console.log("listening in port " + config().port);
 // routes
 var routes = require('./routes');
 var users = require('./routes/users');
