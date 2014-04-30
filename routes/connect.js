@@ -1,5 +1,6 @@
 var express = require('express');
 var models = require('../models');
+var config = require('../config');
 
 var router = express.Router();
 
@@ -42,7 +43,12 @@ router.post('/', function(req, res) {
         var socket = require('socket.io-client')(connection.url);
         // emit a new connection event from this server
         socket.on('connect', function(){
-          socket.emit('server-new-connection', poke);
+          var configData = config();
+          socket.emit('server-new-connection', {
+            url: configData.url + ':' + configData.port,
+            username: username,
+            timestamp: connection.createdAt
+          });
         });
         
         res.end(JSON.stringify({ Message: 'Connection added...' }));
