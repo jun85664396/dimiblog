@@ -3,9 +3,18 @@ var socketio = require('socket.io');
 var sockets = function(server){
   var io = socketio.listen(server);
   io.sockets.on('connection', function (socket) {
-    socket.on('poke', function (poke) {
-      console.log('Poke: from ' + poke.username + ' in ' + poke.url + ' at ' + poke.timestamp);
+    console.log('We got a new socket connection!');
+    // on a poke event coming from a server
+    // emit a signal to the client
+    socket.on('server-poke', function (poke) {
+      socket.emit('client-poke', poke);
     });
+    // on a new connection event coming from a server
+    // emit a signal to the client
+    socket.on('server-new-connection', function (data) {
+      socket.emit('client-new-connection', data)
+    });
+    
   });
 };
 

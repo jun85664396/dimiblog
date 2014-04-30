@@ -1,9 +1,38 @@
 extends layout
 
+block header
+  script(src='/javascripts/jquery.js')
+  
 block content
   h1= title
-  form#formLogin(name="connect",method="post",action="/connect")
+
+  form#formConnect(name="connect",method="post",action="/connect")
     input#inputUserName(type="text", placeholder="Username", name="username")
     input#inputUserUrl(type="text", placeholder="Url", name="url")
-    button#btnSubmit(type="submit") submit
-  h1= message
+    button#btnSubmit(type="button") submit
+  
+  h1 Connections
+  
+  ul#connections
+  each connection in connections
+    li
+      = connection.username + "@" + connection.url
+
+  script(type='text/javascript').
+    $(document).ready(function(){
+      $('#btnSubmit').click(function(){
+        $.post( "/connect", $( "#formConnect" ).serialize(), function(data){
+          //alert("Success");
+          $('#connections').prepend('<li>' + $('#inputUserName').val() + '@' + $('#inputUserUrl').val() + '</li>');
+          $('#inputUserName').val('');
+          $('#inputUserUrl').val('');
+        })
+        .done(function() {
+          //
+        })
+        .fail(function() {
+          //
+          alert("Error");
+        });
+      })
+    });
