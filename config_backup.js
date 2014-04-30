@@ -1,6 +1,6 @@
 module.exports = function(){
   return {
-    database: 'epl700',
+    database: 'epl699',
     user: 'root',
     password: '123123',
     url: 'localhost',

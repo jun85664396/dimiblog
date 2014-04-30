@@ -5,9 +5,9 @@ module.exports.addFixtures = function(model){
   var hash = crypto.createHash('sha1');
   hash.update('123123', 'utf8');
   var user = User.build({
-    username: 'haris',
+    username: 'aledesma',
     password: hash.digest('hex'),
-    email: 'haris@cs.ucy.ac.cy'
+    email: 'aledesma@cs.ucy.ac.cy'
   });
   user
     .save()
