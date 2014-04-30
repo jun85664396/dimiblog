@@ -96,7 +96,7 @@ var pokeServers = function(username, post){
       var conn = connections[i];
       var socket = require('socket.io-client')(conn.url);
       socket.on('connect', function(){
-        socket.emit('server-poke', poke);
+        socket.emit('server poke', poke);
         socket.on('disconnect', function(){
           console.log('we disconnected from ' + conn.url);
         });

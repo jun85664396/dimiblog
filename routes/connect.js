@@ -30,7 +30,10 @@ router.post('/', function(req, res) {
   var connectionUsername = req.body.username;
   var connectionUrl = req.body.url;
   
-  getUser(username, function(user){
+  var User = models.User;
+  User
+  .find({ where: { username: username } })
+  .success(function(user) {
     var Connection = models.Connection;
     Connection
     .create({ 
@@ -39,15 +42,20 @@ router.post('/', function(req, res) {
     })
     .complete(function(error, connection){
       user.addConnection(connection).success(function(){
-        // connect to the server
+        var configData = config();
+        var data = {
+          url: configData.url + ':' + configData.port,
+          username: username,
+          timestamp: connection.createdAt.toUTCString()
+        };
+        
+        // connect to the newly created server
         var socket = require('socket.io-client')(connection.url);
-        // emit a new connection event from this server
         socket.on('connect', function(){
-          var configData = config();
-          socket.emit('server-new-connection', {
-            url: configData.url + ':' + configData.port,
-            username: username,
-            timestamp: connection.createdAt
+          // emit a server-new-connection event from this server
+          socket.emit('server new connection', data);
+          socket.on('disconnect', function(){
+            console.log('we disconnected from ' + conn.url);
           });
         });
         
@@ -63,9 +71,8 @@ var getUser = function(username, next){
   var User = models.User;
   User
     .find({ where: { username: username } })
-    .complete(function(err, user) {
-      if(!err)
-        next(user);
+    .success(function(user) {
+      next(user);
     });
 };
 

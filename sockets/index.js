@@ -6,13 +6,14 @@ var sockets = function(server){
     console.log('We got a new socket connection!');
     // on a poke event coming from a server
     // emit a signal to the client
-    socket.on('server-poke', function (poke) {
+    socket.on('server poke', function (poke) {
       socket.emit('client-poke', poke);
     });
     // on a new connection event coming from a server
     // emit a signal to the client
-    socket.on('server-new-connection', function (data) {
-      socket.emit('client-new-connection', data)
+    socket.on('server new connection', function (data) {
+      console.log('I received a server-new-connection event');
+      socket.emit('client new connection', data)
     });
     
   });

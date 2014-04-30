@@ -22,7 +22,7 @@ block content
     var port = $('#port').text();
     var socket = io.connect(url + ':' + port);
     var text = '';
-    socket.on('client-new-connection', function (data) {
+    socket.on('client new connection', function (data) {
       text = 'A new server has connected to yours: user: ' + data.username + '@' + data.url + ' | ' + data.timestamp;
-      alert(text);
+      console.log('I recevied a client-new-connection event with data ' + text);
     });
