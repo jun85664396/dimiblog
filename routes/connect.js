@@ -38,6 +38,13 @@ router.post('/', function(req, res) {
     })
     .complete(function(error, connection){
       user.addConnection(connection).success(function(){
+        // connect to the server
+        var socket = require('socket.io-client')(connection.url);
+        // emit a new connection event from this server
+        socket.on('connect', function(){
+          socket.emit('server-new-connection', poke);
+        });
+        
         res.end(JSON.stringify({ Message: 'Connection added...' }));
       });
     });
