@@ -24,7 +24,7 @@ var sockets = function(server){
         return accept('Session not found.', false);
       }
       if(!session.username){
-        return accept('You have to login first.', false);
+        return accept('Session not authenticated', true);
       }
       data.session = session;
       return accept(null, true);
@@ -42,6 +42,9 @@ var sockets = function(server){
     socket.on('my other event', function (data) {
       console.log(data);
     });
+    socket.on('server new connection', function(data){
+      console.log(data)
+    });    
   });
 };
 

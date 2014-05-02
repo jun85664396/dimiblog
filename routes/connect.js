@@ -50,11 +50,13 @@ router.post('/', function(req, res) {
         };
         
         // connect to the newly created server
-        var socket = require('socket.io-client')(connection.url);
-        socket.on('connect', function(){
+        console.log('attempting to connect to ' + connection.url);
+        var clientio = require('socket.io-client');
+        var client = clientio.connect(connection.url);
+        client.on('connect', function(){
           // emit a server-new-connection event from this server
-          socket.emit('server new connection', data);
-          socket.on('disconnect', function(){
+          client.emit('server new connection', data);
+          client.on('disconnect', function(){
             console.log('we disconnected from ' + conn.url);
           });
         });
