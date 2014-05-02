@@ -32,20 +32,19 @@ var sockets = function(server){
   });
   
   sio.sockets.on('connection', function (socket) {
-    // smg here
-    if(!socket.handshake){
+    var hs = socket.handshake;
+    /* NOTE: At this point, you win. You can use hs.sessionID and
+     *       hs.session. */
+    if(!hs.sessionID){
       // server
-      console.log('if we reach this point we are listening to a server "server new connection" event...');
+      console.log('if we reach this point we are listening to a "server new connection" event...');
       socket.on('server new connection', function(data){
         console.log(data)
         // socket.disconnect();
       });
     } else {
       // logged in user
-      var hs = socket.handshake;
       console.log('A socket with sessionID '+hs.sessionID+' connected.');
-      /* NOTE: At this point, you win. You can use hs.sessionID and
-       *       hs.session. */
       socket.emit('news', { hello: 'world' });
       socket.on('my other event', function (data) {
         console.log(data);
