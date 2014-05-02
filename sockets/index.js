@@ -1,21 +1,47 @@
-var socketio = require('socket.io');
+var io = require('socket.io');
+var cookie = require('cookie');
+var sessionContainer = require('../sessionContainer');
+var parse = require('../lib/parse');
 
 var sockets = function(server){
-  var io = socketio.listen(server);
-  io.sockets.on('connection', function (socket) {
-    console.log('We got a new socket connection!');
-    // on a poke event coming from a server
-    // emit a signal to the client
-    socket.on('server poke', function (poke) {
-      socket.emit('client-poke', poke);
-    });
-    // on a new connection event coming from a server
-    // emit a signal to the client
-    socket.on('server new connection', function (data) {
-      console.log('I received a server-new-connection event');
-      socket.emit('client new connection', data)
-    });
+
+  var sio = io.listen(server);
+  
+  sio.set('authorization', function(data, accept){
+    /* NOTE: To detect which session this socket is associated with,
+     *       we need to parse the cookies. */
+    if (!data.headers.cookie) {
+      return accept('Session cookie required.', false);
+    }
     
+    data.cookie = cookie.parse(data.headers.cookie);
+    data.cookie = parse.signedCookies(data.cookie, sessionContainer.secret);
+    data.sessionID = data.cookie[sessionContainer.key];
+    sessionContainer.store.get(data.sessionID, function(err, session){
+      if (err) {
+        return accept('Error in session store.', false);
+      } else if (!session) {
+        return accept('Session not found.', false);
+      }
+      if(!session.username){
+        return accept('You have to login first.', false);
+      }
+      data.session = session;
+      return accept(null, true);
+    });
+  });
+  
+  sio.sockets.on('connection', function (socket) {
+    // smg here
+    var hs = socket.handshake;
+    // console.log('A socket with sessionID '+hs.sessionID+' connected.');
+   
+    /* NOTE: At this point, you win. You can use hs.sessionID and
+     *       hs.session. */
+    socket.emit('news', { hello: 'world' });
+    socket.on('my other event', function (data) {
+      console.log(data);
+    });
   });
 };
 

@@ -50,8 +50,6 @@ router.post('/', function(req, res) {
   !req.session.username ?
     res.end(JSON.stringify({ Message: 'Authentication required...' })):
     addPost(req, res);
-
-  addPost(req, res);
 });
 
 var addPost = function(req, res){

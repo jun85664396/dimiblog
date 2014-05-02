@@ -6,7 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var config = require('./config');
-console.log("listening in port " + config().port);
+// session variables
+var sessionContainer = require('./sessionContainer');
 // routes
 var routes = require('./routes');
 var users = require('./routes/users');
@@ -30,7 +31,11 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
-app.use(session({ secret: 'something big is going to happen' }));
+app.use(session({ 
+  secret: sessionContainer.secret,
+  store: sessionContainer.store,
+  key: sessionContainer.key
+}));
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 

@@ -11,3 +11,5 @@ var server = app.listen(app.get('port'), function() {
 
 var sockets = require('../sockets');
 sockets(server);
+
+console.log("listening in port " + config().port);

@@ -18,11 +18,11 @@ block content
       = user.username
 
   script(type='text/javascript').
+  
     var url = $('#url').text();
     var port = $('#port').text();
-    var socket = io.connect(url + ':' + port);
-    var text = '';
-    socket.on('client new connection', function (data) {
-      text = 'A new server has connected to yours: user: ' + data.username + '@' + data.url + ' | ' + data.timestamp;
-      console.log('I recevied a client-new-connection event with data ' + text);
+    var socket = io.connect('http://' + url + ':' + port);
+    socket.on('news', function (data) {
+      console.log(data);
+      socket.emit('my other event', { my: 'data' });
     });
