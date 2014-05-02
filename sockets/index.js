@@ -3,6 +3,8 @@ var cookie = require('cookie');
 var sessionContainer = require('../sessionContainer');
 var parse = require('../lib/parse');
 
+var clientSockets = new Array();
+
 var sockets = function(server){
 
   var sio = io.listen(server);
@@ -40,7 +42,15 @@ var sockets = function(server){
       console.log('if we reach this point we are listening to a "server new connection" event...');
       socket.on('server new connection', function(data){
         console.log(data)
-        // socket.disconnect();
+        setTimeout(function(){
+          socket.disconnect();
+        }, 3000);
+        
+        if(clientSocket.length == 1){
+          var client = clientSocket[0];
+          client.emit('news', { hello: 'we have a new connection!' });
+          console.log("event sent to the client.");
+        }
       });
     } else {
       // logged in user
@@ -49,6 +59,7 @@ var sockets = function(server){
       socket.on('my other event', function (data) {
         console.log(data);
       });
+      clientSocket.push(socket);
     }
   });
 };
