@@ -92,12 +92,11 @@ var pokeServers = function(username, post){
     // iterate and do a socket.io client emit event.
     for (var i = 0; i < connections.length; i ++){
       var conn = connections[i];
-      var socket = require('socket.io-client')(conn.url);
-      socket.on('connect', function(){
-        socket.emit('server poke', poke);
-        socket.on('disconnect', function(){
-          console.log('we disconnected from ' + conn.url);
-        });
+      var socketio = require('socket.io-client');
+      client = (conn.url);
+      client.on('connect', function(){
+        client.emit('server poke', poke);
+        // disconnect
       });
     }
   });

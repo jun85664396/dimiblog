@@ -7,8 +7,10 @@ var router = express.Router();
 router.get('/', function(req, res) {
   if(!req.session.username)
     res.redirect('../login');
-  
-  getUser(req.session.username, function(user){
+  var User = models.User;
+  User
+  .find({ where: { username: username } })
+  .success(function(user) {
     user
     .getConnections()
     .complete(function(error, connections){
@@ -56,9 +58,7 @@ router.post('/', function(req, res) {
         client.on('connect', function(){
           // emit a server-new-connection event from this server
           client.emit('server new connection', data);
-          client.on('disconnect', function(){
-            console.log('we disconnected from ' + conn.url);
-          });
+          // disconnect
         });
         
         res.end(JSON.stringify({ Message: 'Connection added...' }));
@@ -68,14 +68,5 @@ router.post('/', function(req, res) {
   });
   // done after gettint the user
 });
-
-var getUser = function(username, next){
-  var User = models.User;
-  User
-    .find({ where: { username: username } })
-    .success(function(user) {
-      next(user);
-    });
-};
 
 module.exports = router;

@@ -11,7 +11,7 @@ var sockets = function(server){
     /* NOTE: To detect which session this socket is associated with,
      *       we need to parse the cookies. */
     if (!data.headers.cookie) {
-      return accept('Session cookie required.', false);
+      return accept('This is a server connecting.', true);
     }
     
     data.cookie = cookie.parse(data.headers.cookie);
