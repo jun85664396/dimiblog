@@ -3,7 +3,7 @@ var cookie = require('cookie');
 var sessionContainer = require('../sessionContainer');
 var parse = require('../lib/parse');
 
-var clientSockets = new Array();
+var clientSockets = {};
 
 var sockets = function(server){
 
@@ -45,11 +45,12 @@ var sockets = function(server){
         setTimeout(function(){
           socket.disconnect();
         }, 3000);
-        
-        if(clientSocket.length == 1){
-          var client = clientSocket[0];
-          client.emit('news', { hello: 'we have a new connection!' });
-          console.log("event sent to the client.");
+        console.log('attempting to send the event to the client');
+        for(var propertyName in clientSockets) {
+           // propertyName is what you want
+           // you can get the value like this: myObject[propertyName]
+           client = clientSockets[propertyName];
+           client.emit('news', data);
         }
       });
     } else {
@@ -59,7 +60,14 @@ var sockets = function(server){
       socket.on('my other event', function (data) {
         console.log(data);
       });
-      clientSocket.push(socket);
+      clientSockets[hs.sessionID] = socket;
+      // handle the disconnect
+      socket.on('disconnect', function () {
+        if(clientSockets[hs.sessionID]){
+          console.log('deleted unused socket ' + hs.sessionID);
+          delete clientSockets[hs.sessionID];
+        }
+      });
     }
   });
 };
