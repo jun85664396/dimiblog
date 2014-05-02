@@ -31,16 +31,18 @@ router.get('/:username', function(req, res) {
 
 // get my posts
 router.get('/', function(req, res) {
-  if(!req.session.username)
+  if(!req.session.username){
     res.redirect('../login');
-  var username = req.session.username;
-  
-  getPostsFromUser(username, function(posts){
-    res.render('posts', {
-      title: 'Your posts will appear here',
-      posts: posts
+  } else {
+    var username = req.session.username;
+    
+    getPostsFromUser(username, function(posts){
+      res.render('posts', {
+        title: 'Your posts will appear here',
+        posts: posts
+      });
     });
-  });
+  }
 });
 
 // post a post LOL
