@@ -33,7 +33,7 @@ router.post('/', function(req, res) {
   res.setHeader('Content-Type', 'application/json');
   !req.session.username?
     res.end(JSON.stringify({ Message: 'You need to login first.' })):
-    getConnectionsFromUser(req, res);
+    addConnectionToUser(req, res);
 });
 
 var addConnectionToUser = function(req, res){
@@ -69,6 +69,7 @@ var connectToServer = function(connection, data){
   client.on('connect', function(){
     // emit a server-new-connection event from this server
     client.emit('server new connection', data);
+    console.log('event emitted');
     // disconnect
   });
 };

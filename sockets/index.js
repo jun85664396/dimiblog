@@ -11,7 +11,7 @@ var sockets = function(server){
     /* NOTE: To detect which session this socket is associated with,
      *       we need to parse the cookies. */
     if (!data.headers.cookie) {
-      return accept('This is a server connecting.', true);
+      return accept(null, true);
     }
     
     data.cookie = cookie.parse(data.headers.cookie);
@@ -35,9 +35,10 @@ var sockets = function(server){
     // smg here
     if(!socket.handshake){
       // server
+      console.log('if we reach this point we are listening to a server "server new connection" event...');
       socket.on('server new connection', function(data){
         console.log(data)
-        socket.disconnect();
+        // socket.disconnect();
       });
     } else {
       // logged in user
